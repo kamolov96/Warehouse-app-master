@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Supplier page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<style>
+
+    .row{
+        position: relative;
+    }
+    .img-fluid{
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+    table{
+        border: 50px;
+        border-radius: 20px;
+    }
+
+    table tr th{
+        border: 1px solid black;
+    }
+
+    table tr td{
+        border: 1px solid black;
+    }
+</style>
+
+
+</head>
+
+<body>
+<div class="container-fluid m-0 p-0">
+    <img class="img-fluid"  src="https://images.pexels.com/photos/1933239/pexels-photo-1933239.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+    <div class="row mt-4">
+        <div class="col-md-4 container-fluid m-2">
+
+            <form th:action="@{/warehouse/supplier/add}" method="post" th:object="${supplierDTO}">
+                <div class="text-center h4">
+                    <label class="form-control" style="background: #16a811">Supplier add operation</label>
+                </div>
+                <div class="border-secondary form-control" style="background: #5cefde">
+                    <div class="form-group row m-2">
+                        <div class="col-sm-4">
+                            <label class="btn btn-primary form-control">Name</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input class="form-control" th:field="*{name}" placeholder="Enter supplier name" required minlength="2">
+                        </div>
+                    </div>
+                    <div class="form-group row m-2">
+                        <div class="col-sm-4">
+                            <label class="btn btn-primary form-control">Tel Number</label>
+                        </div>
+                        <div class="col-sm-8">
+<!--                            <label for="exampleInputPassword1" class="form-label"></label>-->
+                            <input name="phoneNumber" th:field="*{phoneNumber}" placeholder="Enter phone number" type="text" class="form-control" id="exampleInputPassword1">
+                        </div>
+                    </div>
+                    <div class="form-group row m-2">
+                        <div class="col-sm-4">
+                            <label class="btn btn-primary form-control" >Active</label>
+                        </div>
+                        <div class="col-sm-8" style="border-color: #37d344">
+                            <input class="form-check-input m-2 h5" th:field="*{active}" style="color: #37d344" type="checkbox"/>
+                        </div>
+                        <div class="btn input-group-text" >
+                            <button class="btn btn-primary" type="submit" style="background: #37d344;color: khaki">Save</button>
+                            <button class="btn border-secondary" type="reset" style="background: darkslategrey; color: #e05858">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-7 container-fluid m-2">
+            <table class="table" style="max-width: 900px; background-color: #5cefde">
+                <div style="max-width: 900px" class="form-control">
+                    <div th:if="${message.isSuccess()!=true}" class="alert-success alert-danger h5 text-center" th:text="${message.getMessage()}" style="color: #e05858; text-align: center; background-color: khaki";  th:class="form-control"></div>
+                    <h4><div th:unless="${message.isSuccess()!=true}" class="alert-success h4 text-center" th:text="${message.getMessage()}" style="color: #e05858; text-align: center; background-color: khaki";  th:class="form-control" ></div></h4>
+                </div>
+                <thead class="table-dark">
+                <tr class="text-center">
+                    <th >Name</th>
+                    <th >Phone </th>
+                    <th>Active</th>
+                    <th>Operations</th>
+                </tr>
+                </thead>
+                <tr th:each="sup:${suppliers}">
+                    <td class="h6" style="color: darkblue; text-align: inherit; font-size: 20px" th:text="${sup.getName()}" ></td>
+                    <td>
+                        <span  class="h6" style="color: darkblue; text-align: inherit; font-size: 20px" th:if="${sup.getPhoneNumber()!=null}" th:text="${sup.getPhoneNumber()}"></span>
+                        <span  class="h6" style="color: darkblue; text-align: inherit; font-size: 20px" th:if="${sup.getPhoneNumber()==null}" >No phone number</span>
+                    </td>
+                    <td class="text-center">
+                        <span class=" btn card-title" style="background: #37d344" th:if="${sup.isActive()==true}">ACTIVE</span>
+                        <span class="btn card-title" style="background: rgba(238,152,152,0.99)" th:unless="${sup.isActive()==true}">NOT ACTIVE</span>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-primary m-2" th:href="@{'/warehouse/supplier/edit/'+${sup.getId()}}">Edit</a>
+<!--                        <a class="btn btn-secondary" th:href="@{'/warehouse/supplier/delete/'+${sup.getId()}}" style="background: darkred">NOT ACTIVE</a>-->
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

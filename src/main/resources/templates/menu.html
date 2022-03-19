@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+<div class="container-fluid">
+   <div class="row">
+       <div class="col-md-3">
+           <div>
+               <label class="btn btn-primary m-2" onclick="addCategory()">Category</label>
+           </div>
+           <div>
+               <label class="btn btn-primary m-2" onclick="addMeasurement()">Measurement</label>
+           </div>
+           <div>
+               <label class="btn btn-primary m-2" onclick="addProduct()">Add product</label>
+           </div>
+           <div>
+               <label class="btn btn-primary m-2" onclick="showProduct()">Show product</label>
+           </div>
+       </div>
+   </div>
+</div>
+<script type="text/javascript">
+    function addCategory(){
+        window.location="[[@{/warehouse/category}]]";
+    }
+    function addMeasurement(){
+        window.location="[[@{/warehouse/measurement}]]";
+    }
+    function addProduct(){
+        window.location="[[@{/warehouse/product}]]";
+    }
+    function showProduct(){
+        window.location="[[@{/warehouse/product/show}]]";
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container-fluid text-center ">
+
+    <form th:action="@{'/warehouse/user/verification/'+${userDto.getEmail()}}"  method="post" th:object="${userDto}" style="max-width: 500px; margin: 0 auto;">
+        <div class="border border-secondary p-3 rounded">
+            <a></a>
+            <div  style="max-width: 500px">
+                <div th:if="${message.isSuccess()!=true}" class="alert-success alert-danger h5 text-center"
+                     th:text="${message.getMessage()}" style="text-align: center"></div>
+                <div th:unless="${message.isSuccess()!=true}" class="alert-success h5 text-center"
+                     th:text="${message.getMessage()}"></div>
+            </div>
+            <p  >
+                <input  type="text" name="code" class="form-control" placeholder="Verification code" required autofocus minlength="3"/>
+            </p>
+            <p>
+                <input type="submit" value="Verification" class="btn btn-primary"/>
+            </p>
+               <a class="dropdown-item" style="color: #e05858" th:href="@{/warehouse/user/register}">Register as new user</a>
+            <a class="text-dark" th:href="@{'/warehouse/user/verification/resent/'+${userDto.getEmail()}}">I can't receive code</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Product</option>
+                <option onclick="showProduct()">Product show</option>
+                <option onclick="category()">Category add</option>
+                <option onclick="measurement()">Measurement add</option>
+            </select>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Input</option>
+                <option onclick="addInput()">Add input</option>
+            </select>
+            <script type="text/javascript">
+                function category() {
+                    window.location = "[[@{/warehouse/category}]]";
+                }
+
+
+                function measurement() {
+                    window.location = "[[@{/warehouse/measurement}]]";
+                }
+
+                function showProduct() {
+                    window.location = "[[@{/warehouse/product/show}]]";
+                }
+
+                function addInput() {
+                    window.location = "[[@{/warehouse/input}]]";
+                }
+            </script>
+        </div>
+        <div class="col-md-3">
+            <th:block th:if="${products.size()>0}">
+            <form th:action="@{'/warehouse/input/'+${input.getId()}+'/product'}" method="post"
+                  th:object="${inputProductDto}">
+                <div class="border-secondary" style="background: #006fff">
+                    <div class="text-center h4">
+                        <label class="form-control" style="background: #37d344">Input product add</label>
+                    </div>
+
+                    <div class="form-group row m-2">
+                        <div class="col-sm-3">
+                            <label class="btn btn-primary form-control">Product</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <select class="form-select m-1" aria-label="Default select example"
+                                    th:field="*{product}">
+                                <option th:each="pro:${products}" th:value="${pro.getId()}"
+                                        th:text="${pro.getName()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row m-2">
+                        <div class="col-sm-3">
+                            <label class="btn btn-primary form-control">Price</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" th:field="*{price}" placeholder="Total price"
+                                   required
+                                   min="0">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row m-2">
+                        <div class="col-sm-3">
+                            <label class="btn btn-primary form-control">Amount</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" th:field="*{amount}" placeholder="Total amount"
+                                   required
+                                   min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group row m-2">
+                        <div class="col-sm-3">
+                            <label class="btn btn-primary form-control">Expire Date</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" th:field="*{expireDate}" placeholder="yyyy/MM/dd"
+                                   required
+                                   minlength="10" maxlength="10">
+                        </div>
+                    </div>
+                    <div class="btn input-group-text">
+                        <button class="btn btn-primary" type="submit" style="background: white;color: black">Save
+                        </button>
+                        <button class="btn border-secondary" type="reset" style="background: gray;">Reset</button>
+                    </div>
+                </div>
+        </form>
+                </th:block>
+        </div>
+    <div class="col-md-6">
+        <table class="table table-bordered" style="max-width: 900px">
+            <div style="max-width: 900px">
+                <div th:if="${message.isSuccess()!=true}" class="alert-success alert-danger h5 text-center"
+                     th:text="${message.getMessage()}" style="text-align: center"></div>
+                <div th:unless="${message.isSuccess()!=true}" class="alert-success h5 text-center"
+                     th:text="${message.getMessage()}"></div>
+            </div>
+            <thead class="table-dark">
+            <tr class="text-center">
+                <th>Code:</th>
+                <th>Facture:</th>
+                <th>Warehouse</th>
+                <th>Supplier</th>
+                <th>Currency</th>
+                <th>Date</th>
+                <th>Inputs</th>
+            </tr>
+            </thead>
+            <tr>
+                <td class="h6" style="color: darkblue" th:text="${input.getCode()}"></td>
+                <td class="h6" style="color: darkblue" th:text="${input.getFactureNumber()}"></td>
+                <td class="h6" style="color: darkblue" th:text="${input.getWarehouse().getName()}"></td>
+                <td class="h6" style="color: darkblue" th:text="${input.getSupplier().getName()}"></td>
+                <td class="h6" style="color: darkblue" th:text="${input.getCurrency().getName()}"></td>
+                <td class="h6" style="color: darkblue" th:text="${input.getDate()}"></td>
+                <td class="h6" style="color: darkblue" th:text="${input.getInputProductList().size()}"></td>
+            </tr>
+        </table>
+        <th:block th:if="${input.getInputProductList().size()>0}">
+
+            <table class="table table-bordered" style="max-width: 900px">
+                <thead class="table-dark">
+                <tr class="text-center">
+                    <th>Product code:</th>
+                    <th>Name:</th>
+                    <th>Category:</th>
+                    <th>Price:</th>
+                    <th>Amount:</th>
+                    <th>Measurement:</th>
+                    <th>ExpDate:</th>
+
+                </tr>
+                </thead>
+                <tr th:each="pro:${input.getInputProductList()}">
+                    <td class="h6" style="color: darkblue" th:text="${pro.getProduct().getCode()}"></td>
+                    <td class="h6" style="color: darkblue" th:text="${pro.getProduct().getName()}"></td>
+                    <td class="h6" style="color: darkblue" th:text="${pro.getProduct().getCategory().getName()}"></td>
+                    <td class="h6" style="color: darkblue" th:text="${pro.getPrice()}"></td>
+                    <td class="h6" style="color: darkblue" th:text="${pro.getAmount()}"></td>
+                    <td class="h6" style="color: darkblue"
+                        th:text="${pro.getProduct().getMeasurement().getName()}"></td>
+                    <td class="h6" style="color: darkblue" th:text="${pro.getExpireDate()}"></td>
+                </tr>
+            </table>
+
+        </th:block>
+    </div>
+</div>
+</div>
+</body>
+</html>

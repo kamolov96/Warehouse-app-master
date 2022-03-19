@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container-fluid">
+   <div class="row">
+              <div class="col-md-2">
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Product</option>
+                <option onclick="product()">Product add</option>
+                <option onclick="category()">Category add</option>
+                <option onclick="measurement()">Measurement add</option>
+            </select>
+            <script type="text/javascript">
+                function product() {
+                    window.location = "[[@{/warehouse/product}]]";
+                }
+
+                function category() {
+                    window.location = "[[@{/warehouse/category}]]";
+                }
+
+
+                function measurement() {
+                    window.location = "[[@{/warehouse/measurement}]]";
+                }
+
+            </script>
+        </div>
+       <div class="col-md-9">
+           <div style="max-width: 1400px">
+               <div th:if="${message.isSuccess()!=true}" class="alert-success alert-danger h5 text-center" th:text="${message.getMessage()}" style="text-align: center"></div>
+               <div th:unless="${message.isSuccess()!=true}" class="alert-success h5 text-center" th:text="${message.getMessage()}"></div>
+           </div>
+           <table class="table text-center">
+               <tr class="table-dark">
+                <th>Code</th>
+                <th>Picture</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Measurement</th>
+                <th>Active</th>
+               </tr>
+         <tr th:each="product :${products}">
+             <td th:text="${product.getCode()}"></td>
+             <td >
+                 <a class="btn" style="background: #7195ec" th:href="@{'/warehouse/product/show/'+${product.getId()}}">Show photo</a>
+             </td>
+             <td th:text="${product.getName()}"></td>
+             <td th:text="${product.getCategory().getName()}"></td>
+             <td th:text="${product.getMeasurement().getName()}"></td>
+             <td class="text-center">
+                 <span class=" btn card-title" style="background: #37d344" th:if="${product.isActive()==true}">Active</span>
+                 <span class="btn card-title" style="background: rgba(238,152,152,0.99)" th:unless="${product.isActive()==true}">No_Active</span>
+             </td>
+         </tr>
+           </table>
+           <div class="container-fluid">
+               <div th:if="${pageNumbers.size()>0}" class="row">
+                   <div class="col-md-1">
+                       <h5 th:if="${pageNumbers.size()>1}">Pages:</h5>
+                   </div>
+                   <div class="col-md-2">
+                       <a th:each="page:${pageNumbers}" class="pagination-sm m-2 card-header"  th:if="${page!=currentPage+1}"   th:text="${page}" th:href="@{'/warehouse/product/show/?page='+${page}}"></a>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+
+</body>
+</html>

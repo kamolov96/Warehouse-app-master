@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+
+</head>
+<body>
+<div class="container-fluid m-4">
+    <div class="row mt-4">
+        <div class="col-md-4">
+
+            <form th:action="@{/warehouse/client/add}" method="post" th:object="${clientDto}">
+                <div class="text-center h4">
+                    <label class="form-control" style="background: #16a811">Client add</label>
+                </div>
+                <div class="border-secondary" style="background: #ad920f">
+                    <div class="form-group row m-2">
+                        <div class="col-sm-3">
+                            <label class="btn btn-primary form-control">Name</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input class="form-control" th:field="*{name}" placeholder="Client name" required minlength="2">
+                        </div>
+                    </div>
+                    <div class="form-group row m-2">
+                        <div class="col-sm-4">
+                            <label class="btn btn-primary form-control">Phone Number</label>
+                        </div>
+                        <div class="col-sm-8">
+                                <label for="exampleInputPassword1" class="form-label"></label>
+                                <input name="phoneNumber" th:field="*{phoneNumber}" type="text" class="form-control" id="exampleInputPassword1">
+                        </div>
+                    </div>
+                    <div class="form-group row m-2">
+                        <div class="col-sm-3">
+                            <label class="btn btn-primary form-control" >Active</label>
+                        </div>
+                        <div class="col-sm-5" style="border-color: #37d344">
+                            <input class="form-check-input m-2 h5" th:field="*{active}" style="color: #37d344" type="checkbox"/>
+                        </div>
+                        <div class="btn input-group-text" >
+                            <button class="btn btn-primary" type="submit" style="background: white;color: black">Save</button>
+                            <button class="btn border-secondary" type="reset" style="background: gray;">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-8">
+            <table class="table table-bordered" style="max-width: 900px">
+                <div style="max-width: 900px">
+                    <div th:if="${message.isSuccess()!=true}" class="alert-success alert-danger h5 text-center" th:text="${message.getMessage()}" style="text-align: center"></div>
+                    <div th:unless="${message.isSuccess()!=true}" class="alert-success h5 text-center" th:text="${message.getMessage()}"></div>
+                </div>
+                <thead class="table-dark">
+                <tr class="text-center">
+                    <th >Name</th>
+                    <th >Phone </th>
+                    <th>Active</th>
+                </tr>
+                </thead>
+                <tr th:each="cil:${clients}">
+                    <td class="h6" style="color: darkblue" th:text="${cil.getName()}"></td>
+                    <td>
+                        <span  class="h6" style="color: darkblue" th:if="${cil.getPhoneNumber()!=null}" th:text="${cil.getPhoneNumber()}"></span>
+                        <span  class="h6" style="color: darkblue" th:if="${cil.getPhoneNumber()==null}" >No phone number</span>
+                    </td>
+                    <td class="text-center">
+                        <span class=" btn card-title" style="background: #37d344" th:if="${cil.isActive()==true}">Active</span>
+                        <span class="btn card-title" style="background: rgba(238,152,152,0.99)" th:unless="${cil.isActive()==true}">No_Active</span>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-primary m-2" th:href="@{'/warehouse/client/edite/'+${cil.getId()}}">Edite</a>
+                        <a class="btn btn-secondary" th:href="@{'/warehouse/client/delete/'+${cil.getId()}}" style="background: #deb811">No_Active</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+ </div>
+ </body>
+</html>

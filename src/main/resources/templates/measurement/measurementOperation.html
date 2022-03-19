@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container-fluid m-4">
+    <div class="row mt-4">
+                <div class="col-md-2">
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Product</option>
+                <option onclick="showProduct()">Product show</option>
+                <option onclick="product()">Product add</option>
+                <option onclick="category()">Category add</option>
+            </select>
+            <script type="text/javascript">
+                function product() {
+                    window.location = "[[@{/warehouse/product}]]";
+                }
+
+                function category() {
+                    window.location = "[[@{/warehouse/category}]]";
+                }
+
+                function showProduct() {
+                    window.location = "[[@{/warehouse/product/show}]]";
+                }
+            </script>
+        </div>
+        <div class="col-md-4">
+
+            <form th:action="@{/warehouse/measurement/add}" method="post" th:object="${measurementDto}">
+        <div class="text-center h4">
+                <label class="form-control" style="background: #37d344">Measurement add</label>
+            </div>
+            <div class="border-secondary" style="background: #006fff">
+                <div class="form-group row m-2">
+                    <div class="col-sm-3">
+                        <label class="btn btn-primary form-control">Name</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <input class="form-control" th:field="*{name}" placeholder="Measurement name" required minlength="1">
+                    </div>
+                </div>
+
+                <div class="form-group row m-2">
+                    <div class="col-sm-3">
+                        <label class="btn btn-primary form-control" >Active</label>
+                    </div>
+                    <div class="col-sm-5" style="border-color: #37d344">
+                        <input class="form-check-input m-2 h5" th:field="*{active}" style="color: #37d344" type="checkbox"/>
+                    </div>
+                    <div class="btn input-group-text" >
+                        <button class="btn btn-primary" type="submit" style="background: white;color: black">Save</button>
+                        <button class="btn border-secondary" type="reset" style="background: #5cefde">Reset</button>
+                    </div>
+                </div>
+            </div>
+    </form>
+    </div>
+<div class="col-md-1"></div>
+    <div class="col-md-5">
+        <table class="table table-bordered" style="max-width: 700px">
+            <div style="max-width: 600px">
+                <div th:if="${message.isSuccess()!=true}" class="alert-success alert-danger h5 text-center" th:text="${message.getMessage()}" style="text-align: center"></div>
+                <div th:unless="${message.isSuccess()!=true}" class="alert-success h5 text-center" th:text="${message.getMessage()}"></div>
+            </div>
+            <thead class="table-dark">
+            <tr class="text-center">
+                <th >Name</th>
+                <th>Active</th>
+                <th>Operation</th>
+            </tr>
+            </thead>
+            <tr th:each="meas:${measurements}">
+                <td class="h6" style="color: darkblue" th:text="${meas.getName()}"></td>
+                <td class="text-center">
+                    <span class=" btn card-title" style="background: #37d344" th:if="${meas.isActive()==true}">Active</span>
+                    <span class="btn card-title" style="background: rgba(238,152,152,0.99)" th:unless="${meas.isActive()==true}">No_Active</span>
+                </td>
+                <td class="text-center">
+                    <a class="btn btn-primary m-2" th:href="@{'/warehouse/measurement/edite/'+${meas.getId()}}">Edite</a>
+                    <a th:if="${meas.isActive()==true}" class="btn btn-secondary" th:href="@{'/warehouse/measurement/delete/'+${meas.getId()}}" style="background: #e05858">No_Active</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    </div>
+</div>
+</body>
+</html>

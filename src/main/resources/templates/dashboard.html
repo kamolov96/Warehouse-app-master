@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+
+    <style>
+
+    .row{
+        position: relative;
+    }
+    .img-fluid{
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+    table{
+        border: 50px;
+        border-radius: 20px;
+    }
+
+    table tr th{
+        border: 1px solid black;
+    }
+
+    table tr td{
+        border: 1px solid black;
+    }
+</style>
+</head>
+<body>
+<div class="container-fluid ">
+     <img class="img-fluid"  src="https://images.pexels.com/photos/1933239/pexels-photo-1933239.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+    <div class="row">
+           <div class="col-md-12">
+            <div th:if="${message.isSuccess()!=true}" class="alert-success alert-danger h5 text-center"
+                 th:text="${message.getMessage()}" style="text-align: center"></div>
+            <div th:unless="${message.isSuccess()!=true}" class="alert-success h5 text-center"
+                 th:text="${message.getMessage()}"></div>
+        </div>
+ <div class="col-md-2">
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Product</option>
+                <option onclick="showProduct()" >Product show</option>
+                <option onclick="product()" >Product add</option>
+                <option onclick="category()">Category add</option>
+                <option onclick="measurement()" >Measurement add</option>
+            </select>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Input menu</option>
+                <option onclick="input()">Input add</option>
+                <option onclick="showInputs()">Show Inputs</option>
+                <option onclick="supplier()">Supplier</option>
+            </select>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function product() {
+        window.location = "[[@{/warehouse/product}]]";
+    }
+    function category() {
+        window.location = "[[@{/warehouse/category}]]";
+    }
+
+
+    function measurement() {
+        window.location = "[[@{/warehouse/measurement}]]";
+    }
+
+    function showProduct() {
+        window.location = "[[@{/warehouse/product/show}]]";
+    }
+
+</script>
+<script type="text/javascript">
+          function supplier() {
+        window.location = "[[@{/warehouse/supplier}]]";
+    }
+         function input() {
+        window.location = "[[@{/warehouse/input}]]";
+    }
+            function showInputs() {
+        window.location = "[[@{/warehouse/input/show}]]";
+    }
+</script>
+</body>
+
+</html>

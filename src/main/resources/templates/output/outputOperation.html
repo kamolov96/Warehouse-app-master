@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row mt-4">
+        <div class="col-md-5">
+            <form th:action="@{/warehouse/output/add}" method="post" th:object="${outPutDto}">
+                <div class="form-group row m-2">
+                    <div class="col-sm-3 text-center">
+                        <h5 class="alert alert-primary" role="alert">Client:</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <select class="form-select" name="clientId">
+                            <option th:each="cli:${clients}" th:value="${cli.getId()}"
+                                    th:text="${cli.getName()}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row m-2">
+                    <div class="col-sm-3 text-center">
+                        <h5 class="alert alert-primary" role="alert">Warehouse:</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <select class="form-select" name="warehouseId">
+                            <option th:each="ware:${warehouses}" th:value="${ware.getId()}"
+                                    th:text="${ware.getName()}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <div class="col-sm-3 text-center">
+                        <h5 class="alert alert-primary" role="alert">Currency:</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <select class="form-select" name="currencyId">
+                            <option th:each="curr:${currencies}" th:value="${curr.getId()}"
+                                    th:text="${curr.getName()}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <div class="col-sm-3 text-center">
+                        <h5 class="alert alert-primary" role="alert">OutPutProduct:</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <input multiple="multiple" name="" type="text" class="form-control" placeholder="OutPut Product">
+                    </div>
+                </div>
+
+
+                <div class="form-group row m-2">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-8">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                        <button class="btn btn-secondary ms-2" type="reset">Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-7">
+         <form ></form>
+            <table class="alert alert-success" style="max-width: 900px">
+                <thead class="table-header">
+                <tr class="text-center">
+                    <th class="alert alert-success" role="alert">WareHouse Name</th>
+                    <th class="alert alert-success">Client Name</th>
+                    <th class="alert alert-success">Currency Name</th>
+                </tr>
+
+                <tr th:each="o:${outputs}">
+                    <td class="h6" style="color: #09219a" th:text=" ${o.getWarehouse().getName()}"></td>
+                    <td class="h6" style="color: darkblue" th:text="${o.getClient().getName()}"></td>
+                    <td class="h6" style="color: darkblue" th:text="${o.getCurrency().getName()}"></td>
+                    <td class="text-center">
+                        <a class="btn btn-primary m-2" th:href="@{'/warehouse/output/edite/'+${o.getId()}}">Edite</a>
+                        <a class="btn btn-secondary" th:href="@{'/warehouse/output/delete/'+${o.getId()}}"
+                           style="background: #deb811">No_Active</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<form th:action="@{/warehouse/output/addOPP}" method="post" th:object="${outPutProductDto}"  >
+    <div class="form-group row m-4">
+        <div class="col-sm-1 text-center">
+            <h5 class="alert alert-primary" role="alert">Product:</h5>
+        </div>
+        <div class="col-sm-2">
+            <select class="form-select" name="productId">
+                <option th:each="ware:${products}" th:value="${ware.getId()}" th:text="${ware.getName()}"></option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row mb-4">
+        <div class="col-sm-1 text-center">
+            <h5 class="alert alert-primary" role="alert">Amount:</h5>
+        </div>
+        <div class="input-group-prepend col-sm-1">
+            <span class="input-group-text">⌨️</span>
+        </div>
+        <div class="col-sm-2">
+            <input type="text" class="form-control col-sm-1" name="amount" aria-label="Amount (to the nearest dollar)">
+        </div>
+    </div>
+    <div class="form-group row mb-4">
+        <div class="col-sm-1 text-center">
+            <h5 class="alert alert-primary" role="alert">Price:</h5>
+        </div>
+        <div class="input-group-prepend col-sm-1">
+            <span class="input-group-text">$</span>
+        </div>
+        <div class="col-sm-2">
+            <input name="price" type="text" class="form-control col-sm-1" aria-label="Amount (to the nearest dollar)">
+        </div>
+    </div>
+    <div class="form-group row m-2">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-8">
+            <a class="btn btn-primary m-2 btn btn-secondary ms-2" th:href="@{'/warehouse/output/addOPP'}">Save</a>
+            <button class="btn btn-secondary ms-2" type="reset">Reset</button>
+        </div>
+    </div>
+
+</form>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container-fluid" >
+
+    <div class="text-center"><h2>Register for login</h2></div>
+
+    <form th:action="@{/warehouse/user/register}" method="post" th:object="${userDto}"
+          style="max-width: 500px; margin: 0 auto;">
+         <div  style="max-width: 500px">
+                <div th:if="${message.isSuccess()!=true}" class="alert-success alert-danger h5 text-center"
+                     th:text="${message.getMessage()}" style="text-align: center"></div>
+                <div th:unless="${message.isSuccess()!=true}" class="alert-success h5 text-center"
+                     th:text="${message.getMessage()}"></div>
+            </div>
+        <div class="border border-secondary rounded p-3">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">First Name </label>
+                <div class="col-sm-8">
+                    <input type="text" th:field="*{firstName}" class="form-control" required minlength="2" maxlength="45"/>
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Last Name </label>
+                <div class="col-sm-8">
+                    <input type="text" th:field="*{lastName}" class="form-control"required minlength="2" maxlength="45"/>
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Phone Number </label>
+                 <div class="col-sm-1">
+                     <label class="dropdown-item">+998</label>
+                </div>
+                <div class="col-sm-2">
+
+                    <select class="btn btn-group" th:field="*{operatorCode}">
+                   <option th:value="99" th:text="99"></option>
+                   <option th:value="95" th:text="95"></option>
+                   <option th:value="94" th:text="94"></option>
+                   <option th:value="93" th:text="93"></option>
+                   <option th:value="91" th:text="91"></option>
+                   <option th:value="90" th:text="90"></option>
+                   <option th:value="78" th:text="78"></option>
+                   <option th:value="71" th:text="71"></option>
+                   <option th:value="33" th:text="33"></option>
+                    </select>
+                </div>
+                <div class="col-sm-6">
+
+                    <input type="number" th:field="*{phoneNumber}" class="form-control"required minlength="7" maxlength="7"/>
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">E-mail</label>
+                <div class="col-sm-8">
+                    <input type="email" th:field="*{email}" class="form-control" required minlength="8" maxlength="45"/>
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Password </label>
+                <div class="col-sm-8">
+                    <input type="password" th:field="*{password}" class="form-control"required minlength="8" maxlength="20"/>
+                </div>
+            </div>
+
+            <div class="text-center">
+
+                <button type="submit " class="btn-primary m-2">Save</button>
+                <button type="button" class="btn-secondary m-2" onclick="cancelForm()">Cancel</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    function cancelForm(){
+        window.location = "[[@{/}]]";
+    }
+</script>
+
+</body>
+</html>

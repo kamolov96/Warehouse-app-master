@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row mt-4">
+        <div class="col-md-5">
+            <form th:action="@{'/warehouse/output/edite/'+${output.getId()}}" method="post" enctype="multipart/form-data" >
+                <div class="form-group row m-2">
+                    <div class="col-sm-3 text-center">
+                        <h5 class="dropdown-item" >Client:</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <select class="form-select" name="clientId" >
+                            <option th:each="cli:${clients}" th:value="${cli.getId()}" th:text="${cli.getName()}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row m-2">
+                    <div class="col-sm-3 text-center">
+                        <h5 class="dropdown-item" >Warehouse:</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <select class="form-select" name="warehouseId" >
+                            <option th:each="ware:${warehouses}" th:value="${ware.getId()}" th:text="${ware.getName()}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row m-2">
+                    <div class="col-sm-3 text-center">
+                        <h5 class="dropdown-item" >Currency:</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <select class="form-select" name="currencyId" >
+                            <option th:each="curr:${currencies}" th:value="${curr.getId()}" th:text="${curr.getName()}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row m-2">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-8">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                        <button class="btn btn-secondary ms-2" type="reset">Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-7">
+            <table class="table table-bordered" style="max-width: 900px">
+                <div style="max-width: 900px">
+                    <div th:if="${message.isSuccess()!=true}" class="alert-success alert-danger h5 text-center" th:text="${message.getMessage()}" style="text-align: center"></div>
+                    <div th:unless="${message.isSuccess()!=true}" class="alert-success h5 text-center" th:text="${message.getMessage()}"></div>
+                </div>
+                <thead class="table-dark">
+                <tr class="text-center">
+                    <th >WareHouse Name</th>
+                    <th >Client Name </th>
+                    <th>Currency Name </th>
+                </tr>
+                </thead>
+                <tr th:each="o:${outputList}">
+                    <td class="h6" style="color: #deb811" th:text="${o.getWarehouse().getName()}"></td>
+                    <td class="h6" style="color: darkblue" th:text="${o.getWarehouse().getName()}"></td>
+                    <td class="h6" style="color: darkblue" th:text="${o.getClient().getName()}"></td>
+                    <td class="h6" style="color: darkblue" th:text="${o.getCurrency().getName()}"></td>
+                   <td class="text-center">-->
+                        <a class="btn btn-primary m-2" th:href="@{'/warehouse/output/edite/'+${o.getId()}}">Edite</a>
+                        <a class="btn btn-secondary" th:href="@{'/warehouse/output/delete/'+${o.getId()}}" style="background: #deb811">No_Active</a>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
